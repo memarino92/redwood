@@ -9,16 +9,15 @@
  *
  * This file:
  *
- * 1) setups up middleware
+ * 1) sets up up middleware
  * 2) loads the rest of the CLI via this package's command-module structure.
  *
  * @see {@link https://github.com/yargs/yargs/blob/main/docs/advanced.md#providing-a-command-module}
  *
  * @remarks
  *
- * At first the yargs codebase can appear to be a bit complicated.
+ * The yargs codebase can appear to be a bit complicated at first.
  * If you ever have to dig into the source, know that most of the methods are defined here:
- *
  * {@link https://github.com/yargs/yargs/blob/3d2a6aa8c954a58589d7a199b2496bd894dcde25/lib/yargs-factory.ts}
  */
 import fs from 'fs'
@@ -33,9 +32,8 @@ import { hideBin } from 'yargs/helpers'
  * import yargs from 'yargs
  * ```
  *
- * The above is the older, singleton API, which hasn't been deprecated but has been discouraged.
- *
- * @see {@link https://github.com/yargs/yargs/issues/2045#issuecomment-942442554}
+ * The above is the older, singleton API, which hasn't been deprecated but has been discouraged:
+ * {@link https://github.com/yargs/yargs/issues/2045#issuecomment-942442554}
  */
 import yargs from 'yargs/yargs'
 
@@ -44,14 +42,13 @@ import { getPaths, getConfigPath } from '@redwoodjs/internal'
 /**
  * Yargs middleware.
  *
- * Middleware functions get access to `argv`.
- *
- * @see {@link https://yargs.js.org/docs/#api-reference-middlewarecallbacks-applybeforevalidation}
+ * Middleware functions get access to `argv`:
+ * {@link https://yargs.js.org/docs/#api-reference-middlewarecallbacks-applybeforevalidation}
  *
  * This middleware parses, validates, and sets current working directory in the following order:
  *
  * 1. the `--cwd` option
- * 2. the `RWJS_CWD` env-var
+ * 2. the `RWJS_CWD` env var
  * 3. by traversing directories upwards for the first `redwood.toml`
  *
  * This is mainly for contributors.
@@ -103,7 +100,7 @@ const setCwdMiddleware = (argv) => {
  *
  * @remarks
  *
- * We should only do this if we're in a redwood project,
+ * We should only do this if we're in a Redwood project,
  * which is why this is a middleware function that comes after `setCwdMiddleware`.
  */
 const loadDotEnvDefaultsMiddleware = () => {
@@ -128,16 +125,15 @@ const loadDotEnvDefaultsMiddleware = () => {
  *
  * yargs expects `['--help']`, not `['rw', '--help']`.
  *
- * `hideBin` is a yargs helper-function that removes the program name from the array for us.
- *
- * @see {@link https://yargs.js.org/docs/#api-reference}
+ * `hideBin` is a yargs helper-function that removes the program name from the array for us:
+ * {@link https://yargs.js.org/docs/#api-reference}
  *
  * @remarks
  *
- * We should be able to run the cli "programmatically" with this.
- *
- * @see {@link https://github.com/yargs/yargs/issues/1605}
- * @see {@link https://yargs.js.org/docs/#api-reference-parseargs-context-parsecallback}
+ * Assigning the return of this to a variable
+ * because we should be able to run the cli "programmatically" this way:
+ * - {@link https://github.com/yargs/yargs/issues/1605}
+ * - {@link https://yargs.js.org/docs/#api-reference-parseargs-context-parsecallback}
  */
 const parser = yargs(hideBin(process.argv))
   .scriptName('rw')
@@ -158,19 +154,16 @@ const parser = yargs(hideBin(process.argv))
   .strict()
 
 /**
- * `yargs` seems to be moving away from `argv`.
- *
- * @see {@link https://github.com/yargs/yargs/pull/2036}
+ * `yargs` seems to be moving away from `argv`:
+ * {@link https://github.com/yargs/yargs/pull/2036}
  *
  * Note that calling `parse` with no args is equivalent to `argv`.
- *
- * @see {@link https://yargs.js.org/docs/#api-reference}
- * @see {@link https://github.com/yargs/yargs/blob/3d2a6aa8c954a58589d7a199b2496bd894dcde25/lib/yargs-factory.ts#L72-L77}
+ * - {@link https://yargs.js.org/docs/#api-reference}
+ * - {@link https://github.com/yargs/yargs/blob/3d2a6aa8c954a58589d7a199b2496bd894dcde25/lib/yargs-factory.ts#L72-L77}
  *
  * @remarks
  *
- * This should pretty much only ever be used here, at the top level.
- *
- * @see {@link https://yargs.js.org/docs/#api-reference-argv}
+ * This should pretty much only ever be used here, at the top level, according to:
+ * {@link https://yargs.js.org/docs/#api-reference-argv}
  */
 parser.parse()
