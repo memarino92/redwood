@@ -38,7 +38,7 @@
     "camelcase": "6.3.0",
     "chalk": "4.1.2",
     "concurrently": "7.1.0",
-    "configstore": "3.1.5",
+    "configstore": "6.0.0",
     "core-js": "3.22.4",
     "cross-env": "7.0.3",
     "decamelize": "5.0.0",
